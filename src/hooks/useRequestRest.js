@@ -90,7 +90,6 @@ function useRequestRest() {
           doneCallback();
         }
         setData(originalRecords);
-        console.log("Hello world");
       }
     }
     delayFunction();

@@ -362,7 +362,7 @@
       "company": "PayPal",
       "bio": "Douglas Crockford discovered the JSON Data Interchange Format. He is also the author of _JavaScript: The Good Parts_. He has been called a guru, but he is actually more of a mahatma.",
       "twitterHandle": "notatweeter",
-      "favorite": true,
+      "favorite": false,
       "sessions": [
         {
           "id": "12",
@@ -679,26 +679,6 @@
           "room": {
             "name": "Fireside A",
             "capacity": 80
-          }
-        }
-      ]
-    },
-    {
-      "id": "47343",
-      "first": "Eve",
-      "last": "Porcello",
-      "company": "Moon Highway",
-      "bio": "Eve Porcello is an instructor at Moon Highway, egghead.io, and LinkedIn Learning.",
-      "twitterHandle": "eveporcello",
-      "favorite": true,
-      "sessions": [
-        {
-          "id": "7548",
-          "title": "React Is Your Friend: A Gentle Intro to the React Library",
-          "eventYear": "2019",
-          "room": {
-            "name": "Town Square B",
-            "capacity": 130
           }
         }
       ]

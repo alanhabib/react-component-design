@@ -1,8 +1,10 @@
-import { useContext } from "react";
 import { ThemeContext } from "../context/ThemeContext";
+import { useContext } from "react";
+import withAuth from "./withAuth";
 
-function Header() {
+function Header({ loggedInUser, setLoggedInUser }) {
   const { theme } = useContext(ThemeContext);
+
   return (
     <div className="padT4 padB4">
       <div className="container mobile-container">
@@ -14,10 +16,30 @@ function Header() {
             <h4 className="header-title">Silicon Valley Code Camp</h4>
           </div>
           <div className={theme === "light" ? "" : "text-info"}>
-            Hello Mr. Smith &nbsp;&nbsp;
-            <span>
-              <a href="#">sign-out</a>
-            </span>
+            {loggedInUser && loggedInUser.length > 0 ? (
+              <div>
+                <span>Logged in as {loggedInUser} </span>
+                <button
+                  className="btn btn-secondary"
+                  onClick={() => {
+                    setLoggedInUser("");
+                  }}
+                >
+                  Logout
+                </button>
+              </div>
+            ) : (
+              <button
+                className="btn btn-secondary"
+                onClick={(e) => {
+                  e.preventDefault();
+                  const username = window.prompt("Enter Login name:", "");
+                  setLoggedInUser(username);
+                }}
+              >
+                login
+              </button>
+            )}
           </div>
         </div>
       </div>
@@ -25,4 +47,4 @@ function Header() {
   );
 }
 
-export default Header;
+export default withAuth(Header);

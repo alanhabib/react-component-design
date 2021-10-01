@@ -1,15 +1,18 @@
 import Header from "./Header";
-import { createContext, useState } from "react";
 import Speakers from "./Speakers";
 import Layout from "./Layout";
+import { AuthProvider } from "../context/AuthContext";
 
-export const ThemeContext = createContext();
 function App() {
   return (
-    <Layout startingTheme="light">
-      <Header />
-      <Speakers />
-    </Layout>
+    <AuthProvider initialLoggedInUser="Ronald">
+      <Layout startingTheme="light">
+        <div>
+          <Header />
+          <Speakers />
+        </div>
+      </Layout>
+    </AuthProvider>
   );
 }
 
