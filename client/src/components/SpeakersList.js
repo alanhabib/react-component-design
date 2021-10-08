@@ -9,25 +9,29 @@ import axios from "axios";
 
 const restUrl = "http://localhost:9000/api";
 
-function SpeakersList() {
-  const [person, setPerson] = useState("");
+function SpeakersList({ email }) {
+  const [person, setPerson] = useState({
+    name: "",
+    position: "",
+    level: "",
+  });
   const [contacts, setContacts] = useState([]);
 
   const onInputChange = (event) => {
     setPerson({ ...person, [event.target.name]: event.target.value });
   };
 
-  useEffect(() => {
-    async function delayFunc() {
-      try {
-        const result = await axios.get(restUrl);
-        setContacts(result.data);
-      } catch (e) {
-        console.log(e);
-      }
-    }
-    delayFunc();
-  }, []);
+  // useEffect(() => {
+  //   async function delayFunc() {
+  //     try {
+  //       const result = await axios.get(restUrl);
+  //       setContacts(result.data);
+  //     } catch (e) {
+  //       console.log(e);
+  //     }
+  //   }
+  //   delayFunc();
+  // }, []);
   // const {
   //   data: speakersData,
   //   requestStatus,
@@ -54,6 +58,7 @@ function SpeakersList() {
       name: person?.name,
       position: person?.position,
       level: person?.level,
+      email: email,
     };
     await axios.post(restUrl + "/add", newPerson);
     console.log(person);

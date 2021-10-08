@@ -15,7 +15,7 @@ function Header({ loggedInUser, setLoggedInUser }) {
           <div className="light">
             <h4 className="header-title">Silicon Valley Code Camp</h4>
           </div>
-          <div className={theme === "light" ? "" : "text-info"}>
+          {/* <div className={theme === "light" ? "" : "text-info"}>
             {loggedInUser && loggedInUser.length > 0 ? (
               <div>
                 <span>Logged in as {loggedInUser} </span>
@@ -40,7 +40,7 @@ function Header({ loggedInUser, setLoggedInUser }) {
                 login
               </button>
             )}
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

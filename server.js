@@ -5,7 +5,7 @@ require("dotenv").config({ path: "./config.env" });
 const path = require("path");
 const PORT = process.env.PORT || 9000;
 
-const contacts = require("./src/controllers/index");
+const user = require("./src/model/user");
 
 const corsOptions = {
   origin: "http://localhost:3000",
@@ -18,7 +18,7 @@ app.use(express.json());
 
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/api", contacts);
+app.use("/api", user);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port: ${PORT}`);
