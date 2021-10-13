@@ -25,7 +25,7 @@ module.exports.sendConfirmationEmail = async (
       html: `<h1>Email Confirmation</h1>
         <h2>Hello ${name}</h2>
         <p>Thank you for subscribing. Please confirm your email by clicking on the following link</p>
-        <a href=http://localhost:3000/profile> Click here</a>
+        <a href=http://localhost:9000/api/confirm/${confirmationCode}> Click here</a>
         </div>`,
     })
     .catch((err) => console.log(`Error when confirmation with: ${err}`));
