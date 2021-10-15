@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import Speaker from "./Speaker";
 import ReactPlaceHolder from "react-placeholder";
 // import useRequestRest, { REQUEST_STATUS } from "../hooks/useRequestRest";
-import { data } from "../SpeakerData";
+
 import { SpeakerFilterContext } from "../context/SpeakerFilterContext";
 import SpeakerAdd from "./SpeakerAdd";
 import axios from "axios";

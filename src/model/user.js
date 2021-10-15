@@ -7,7 +7,6 @@ const UserSchema = new mongoose.Schema({
   email: { type: String, lowercase: true, trim: true },
   password: String,
   token: String,
-  contacts: Array,
   verified: {
     type: Boolean,
     required: true,
@@ -15,4 +14,30 @@ const UserSchema = new mongoose.Schema({
   },
 });
 const User = mongoose.model("User", UserSchema);
-module.exports = { User };
+
+const BookingSchema = new mongoose.Schema({
+  start: { type: Date, required: true },
+  end: { type: Date, required: true },
+  eventTitle: { type: String, required: true },
+  userId: {
+    type: mongoose.Schema.ObjectId,
+    ref: "User",
+  },
+  roomId: {
+    type: mongoose.Schema.ObjectId,
+    ref: "Room",
+  },
+});
+
+const Booking = mongoose.model("Booking", BookingSchema);
+
+const RoomSchema = new mongoose.Schema({
+  name: String,
+  capacity: Number,
+  availableStart: Date,
+  availableEnd: Date,
+});
+
+const Room = mongoose.model("Room", RoomSchema);
+
+module.exports = { User, Booking, Room };

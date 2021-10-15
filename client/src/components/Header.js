@@ -1,47 +1,92 @@
 import { ThemeContext } from "../context/ThemeContext";
 import { useContext } from "react";
 import withAuth from "./withAuth";
+import { Link } from "react-router-dom";
+import AuthService from "../services/auth.service";
+import styled from "styled-components";
 
-function Header({ loggedInUser, setLoggedInUser }) {
+const NavContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const Nav = styled(NavContainer)``;
+function Header({ currentUser, loggedInUser, setLoggedInUser }) {
   const { theme } = useContext(ThemeContext);
 
   return (
     <div className="padT4 padB4">
       <div className="container mobile-container">
-        <div className="d-flex justify-content-between">
+        <NavContainer className="d-flex justify-content-between">
           <div>
-            <img alt="SVCC Home Page" src="/images/SVCCLogo.png" />
+            <img width={70} alt="React logo" src="/logo512.png" />
           </div>
-          <div className="light">
-            <h4 className="header-title">Silicon Valley Code Camp</h4>
-          </div>
-          {/* <div className={theme === "light" ? "" : "text-info"}>
+          <nav className="navbar navbar-expand navbar-dark bg-dark">
+            <Link to={"/"} className="navbar-brand">
+              Phone-contacts
+            </Link>
+            <div className="navbar-nav mr-auto">
+              <li className="nav-item">
+                <Link to={"/home"} className="nav-link">
+                  Home
+                </Link>
+              </li>
+
+              {currentUser && (
+                <li className="nav-item">
+                  <Link to={"/profile"} className="nav-link">
+                    Profile
+                  </Link>
+                </li>
+              )}
+            </div>
+
+            {currentUser ? (
+              <div className="navbar-nav ml-auto">
+                <li className="nav-item">
+                  <Link to={"/profile"} className="nav-link">
+                    {currentUser.username}
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <a
+                    href="/"
+                    className="nav-link"
+                    onClick={() => AuthService.logout()}
+                  >
+                    Logout
+                  </a>
+                </li>
+              </div>
+            ) : (
+              <div className="navbar-nav ml-auto">
+                <li className="nav-item">
+                  <Link to={"/login"} className="nav-link">
+                    Login
+                  </Link>
+                </li>
+
+                <li className="nav-item">
+                  <Link to={"/register"} className="nav-link">
+                    Sign Up
+                  </Link>
+                </li>
+              </div>
+            )}
+          </nav>
+          <div className={theme === "light" ? "" : "text-info"}>
             {loggedInUser && loggedInUser.length > 0 ? (
               <div>
                 <span>Logged in as {loggedInUser} </span>
-                <button
-                  className="btn btn-secondary"
-                  onClick={() => {
-                    setLoggedInUser("");
-                  }}
-                >
-                  Logout
-                </button>
+                <button className="btn btn-secondary">Logout</button>
               </div>
             ) : (
-              <button
-                className="btn btn-secondary"
-                onClick={(e) => {
-                  e.preventDefault();
-                  const username = window.prompt("Enter Login name:", "");
-                  setLoggedInUser(username);
-                }}
-              >
-                login
-              </button>
+              <button className="btn btn-secondary">Login</button>
             )}
-          </div> */}
-        </div>
+          </div>
+        </NavContainer>
       </div>
     </div>
   );

@@ -10,7 +10,6 @@ const register = async (first_name, last_name, email, password) => {
     password,
   });
   localStorage.setItem("user", JSON.stringify(response.data));
-  console.log("REGISTER: 11111: ", response.data);
   return response.data;
 };
 

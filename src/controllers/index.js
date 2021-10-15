@@ -7,7 +7,22 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const auth = require("../middleware/auth");
 const nodemailer = require("../config/nodemailer.config");
-const { User } = require("../model/user");
+const { User, Booking } = require("../model/user");
+
+const room = [
+  {
+    name: Banana,
+    capacity: 4,
+  },
+  {
+    name: Apple,
+    capacity: 2,
+  },
+  {
+    name: Orange,
+    capacity: 6,
+  },
+];
 
 instanceOfRouter.route("/register").post(async (req, res) => {
   try {
@@ -26,7 +41,7 @@ instanceOfRouter.route("/register").post(async (req, res) => {
       password: encryptedPassword,
       token: token,
       verified: false,
-      contacts: [],
+      bookingId: [],
     });
 
     await user.save();
@@ -96,26 +111,25 @@ instanceOfRouter.route("/login").post(async (req, res) => {
   }
 });
 
-instanceOfRouter.route("/add").post(async (request, response) => {
-  console.log("PARAMS: ", request.params);
-  const myObj = {
-    name: request.body.name,
-    position: request.body.position,
-    level: request.body.level,
-  };
+instanceOfRouter.route("/room").post(async (req, res) => {
+  const { name } = req.body;
+});
 
+instanceOfRouter.route("/book").post(auth, async (req, res) => {
   try {
-    const addedUser = await User.updateOne(
-      { email: request.body.email },
-      { $push: { contacts: myObj } }
-    );
+    const { start, end, eventTitle } = req.body;
+    // since we are useing auth middleware we also will get the userId in req.userId
+    if (!(start && end)) {
+      res.status(400).send("All input is required");
+    }
 
-    res.status(200).json(addedUser);
-  } catch (error) {
-    response
-      .status(500)
-      .send(`There was a problem adding contacts with error: ${error}`);
-  }
+    const booking = new Booking({
+      start,
+      end,
+      eventTitle,
+      userId: req.userId,
+    });
+  } catch (error) {}
 });
 
 module.exports = instanceOfRouter;
