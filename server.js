@@ -2,9 +2,9 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 require("dotenv").config({ path: "./config.env" });
-const path = require("path");
+// const path = require("path");
 const PORT = process.env.PORT || 9000;
-const db = require("./src/model/user");
+// const db = require("./src/model/user");
 const dbUri = process.env.ATLAS_URI;
 const mongoose = require("mongoose");
 

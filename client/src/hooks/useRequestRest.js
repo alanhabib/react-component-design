@@ -13,22 +13,18 @@ function useRequestRest() {
   const [data, setData] = useState();
   const [requestStatus, setRequestStatus] = useState(REQUEST_STATUS.LOADING);
   const [error, setError] = useState("");
-  const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-  useEffect(() => {
-    async function delayFunc() {
-      try {
-        const result = await axios.get(restUrl);
-        console.log("RESULT FETCH: ", result);
-        setRequestStatus(REQUEST_STATUS.SUCCESS);
-        setData(result.data);
-      } catch (e) {
-        setRequestStatus(REQUEST_STATUS.FAILURE);
-        setError(e);
-      }
+  async function getList() {
+    try {
+      const result = await axios.get(`${restUrl}/list`);
+      console.log("RESULT FETCH: ", result);
+      setRequestStatus(REQUEST_STATUS.SUCCESS);
+      setData(result.data);
+    } catch (e) {
+      setRequestStatus(REQUEST_STATUS.FAILURE);
+      setError(e);
     }
-    delayFunc();
-  }, []);
+  }
 
   function updateRecord(record, doneCallback) {
     const originalRecords = [...data];

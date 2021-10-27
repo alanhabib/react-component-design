@@ -1,5 +1,5 @@
-const express = require("express");
 const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
 const UserSchema = new mongoose.Schema({
   first_name: String,
@@ -12,32 +12,28 @@ const UserSchema = new mongoose.Schema({
     required: true,
     default: false,
   },
+  bookings: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Booking",
+    },
+  ],
 });
 const User = mongoose.model("User", UserSchema);
 
 const BookingSchema = new mongoose.Schema({
-  start: { type: Date, required: true },
-  end: { type: Date, required: true },
-  eventTitle: { type: String, required: true },
-  userId: {
-    type: mongoose.Schema.ObjectId,
+  roomName: String,
+  start: { type: String, required: true },
+  end: { type: String, required: true },
+  title: { type: String, required: true },
+  user: {
+    type: Schema.Types.ObjectId,
     ref: "User",
+    required: true,
   },
-  roomId: {
-    type: mongoose.Schema.ObjectId,
-    ref: "Room",
-  },
+  capacity: Number,
 });
 
 const Booking = mongoose.model("Booking", BookingSchema);
 
-const RoomSchema = new mongoose.Schema({
-  name: String,
-  capacity: Number,
-  availableStart: Date,
-  availableEnd: Date,
-});
-
-const Room = mongoose.model("Room", RoomSchema);
-
-module.exports = { User, Booking, Room };
+module.exports = { User, Booking };

@@ -1,4 +1,5 @@
 import React, { useState, useRef } from "react";
+import { useHistory } from "react-router-dom";
 
 import AuthService from "../services/auth.service";
 
@@ -12,15 +13,16 @@ const required = (value) => {
   }
 };
 
-const Login = (props) => {
+const Login = () => {
   const form = useRef();
-
+  let history = useHistory();
   const [userLogin, setUserLogin] = useState({
     email: "",
     password: "",
   });
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
+  const [user, setUser] = useState();
 
   const onChange = (e) => {
     setUserLogin({ ...userLogin, [e.target.name]: e.target.value });
@@ -28,27 +30,31 @@ const Login = (props) => {
 
   const handleLogin = (e) => {
     e.preventDefault();
-
     setMessage("");
     setLoading(true);
-
-    AuthService.login(userLogin.email, userLogin.password).then(
-      (res) => {
-        props.history.push("/profile");
+    AuthService.login(userLogin.email, userLogin.password)
+      .then((res) => {
+        setUser(res);
+        setLoading(false);
+        console.log(user);
+        history.push({
+          pathname: "/profile",
+          state: {
+            user: res,
+          },
+        });
         window.location.reload();
-      },
-      (error) => {
+      })
+      .catch((error) => {
         const resMessage =
           (error.response &&
             error.response.data &&
             error.response.data.message) ||
           error.message ||
           error.toString();
-
         setLoading(false);
         setMessage(resMessage);
-      }
-    );
+      });
   };
 
   return (

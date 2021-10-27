@@ -1,28 +1,13 @@
-import React from "react";
-import AuthService from "../services/auth.service";
-import Speakers from "../components/Speakers";
+import { useLocation } from "react-router-dom";
 
 const Profile = () => {
-  const currentUser = AuthService.getCurrentUser();
+  const { user } = useLocation().state;
+  console.log("verified: ", user.verified);
   return (
-    <div>
-      <header>
-        <h3>
-          <strong>{currentUser?.first_name}</strong> Profile
-        </h3>
-      </header>
-      <p>
-        {/* <strong>Token:</strong> {currentUser?.token.substring(0, 20)} ...{" "} */}
-        {/* {currentUser?.token.substr(currentUser?.token.length - 20)} */}
-      </p>
-      <p>
-        <strong>Id:</strong> {currentUser?._id}
-      </p>
-      <p>
-        <strong>Email:</strong> {currentUser?.email}
-      </p>
-      <Speakers email={currentUser?.email} />
-    </div>
+    <>
+      <h1>{user.first_name}</h1>
+      <h1>{user.email}</h1>
+    </>
   );
 };
 

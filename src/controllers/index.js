@@ -11,15 +11,15 @@ const { User, Booking } = require("../model/user");
 
 const room = [
   {
-    name: Banana,
+    name: "Banana",
     capacity: 4,
   },
   {
-    name: Apple,
+    name: "Apple",
     capacity: 2,
   },
   {
-    name: Orange,
+    name: "Orange",
     capacity: 6,
   },
 ];
@@ -41,7 +41,6 @@ instanceOfRouter.route("/register").post(async (req, res) => {
       password: encryptedPassword,
       token: token,
       verified: false,
-      bookingId: [],
     });
 
     await user.save();
@@ -111,25 +110,65 @@ instanceOfRouter.route("/login").post(async (req, res) => {
   }
 });
 
-instanceOfRouter.route("/room").post(async (req, res) => {
-  const { name } = req.body;
-});
+const rooms = [
+  {
+    room: "Banana",
+    capacity: 6,
+    start: ["20:30"],
+    end: ["22:00"],
+  },
+  {
+    room: "Orange",
+    capacity: 6,
+    start: [],
+    end: [],
+  },
+  {
+    room: "Pear",
+    capacity: 6,
+    start: [],
+    end: [],
+  },
+];
 
-instanceOfRouter.route("/book").post(auth, async (req, res) => {
+instanceOfRouter.route("/rooms").post(async (req, res) => {
   try {
-    const { start, end, eventTitle } = req.body;
-    // since we are useing auth middleware we also will get the userId in req.userId
+    const { start, end } = req.body;
     if (!(start && end)) {
       res.status(400).send("All input is required");
     }
 
+    const availableRooms = rooms.filter(
+      (room) => !room.start.includes(start) && !room.end.includes(end)
+    );
+
+    res.status(200).json(availableRooms);
+  } catch (error) {
+    console.log("WRONG BOOKING; ", error);
+  }
+});
+
+instanceOfRouter.route("/book").post(async (req, res) => {
+  try {
+    const { roomName, capacity, start, end, title } = req.body;
+
+    if (!(room && start)) {
+      res.status(400).send("All input is required");
+    }
+
     const booking = new Booking({
+      roomName,
       start,
       end,
-      eventTitle,
-      userId: req.userId,
+      title,
+      capacity,
+      user,
     });
-  } catch (error) {}
+    await booking.save();
+    res.status(200).json(booking);
+  } catch (error) {
+    res.status(500).send(`There was a problem booking room: ${error}`);
+  }
 });
 
 module.exports = instanceOfRouter;
